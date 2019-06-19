@@ -1,8 +1,8 @@
 var routes = []
 
-routes['auth'] = {
+routes['bank'] = {
     id: 0,
-    name: 'auth',
+    name: 'bank',
     port: process.env.BANKPORT || 3001
 };
 

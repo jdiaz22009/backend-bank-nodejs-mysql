@@ -11,7 +11,7 @@ api.post('/:any*?',function(req,res){
     var data = req.body;
     var portos = req.originalUrl.split("/");
     var path = portos[3];
-    console.log(data,'data',portos, 'portos',path,'path')
+    console.log(data,'data',portos, 'portos', path,'path')
     request.petition('POST',req.originalUrl,port_routes[path].port,data,headers)
     .then(function(response){
         console.log('res',response)
