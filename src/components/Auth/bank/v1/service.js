@@ -3,34 +3,110 @@ const services = {};
 const moment = require('moment')
 const mysql_query = require('../../../../db/db_connected_mysql')
 
-services.registerClient = function (data) {
-    return new Promise((resolve, reject) => {
-        const connect = mysql_query()
-        let sql = `SELECT * FROM clients WHERE email = '${data.email}'`
-        connect.query(sql, function (error, result) {
-            if (error) {
-                console.error('ERROR', error)
+const connect = mysql_query()
+const currentDate = moment().format()
+
+
+const query = query => new Promise((resolve, reject) => {
+    connect.query(query, function (error, sql) {
+        if (error) {
+            return reject({ code: 500, status: 'Internal server error', error })
+        } else {
+            if (sql.length > 0) {
+                return resolve({ code: 200, status: 'successful', message: 'already exists', sql })
             } else {
-                if (result.length > 0) {
-                    console.log('hay algo', result)
+                return resolve({ code: 404, status: 'not found ', sql })
+            }
+        }
+    })
+})
+//? Api client
+services.registerClient = data => {
+    return new Promise((resolve, reject) => {
+        let sql = `SELECT * FROM clients WHERE email = '${data.email}'`
+        query(sql)
+            .then(res => {
+                if (res.code == 200) {
+                    return resolve(res)
                 } else {
-                    const currentDate = moment().format()
                     data.create_date = currentDate
                     data.create_update = currentDate
-                    let sql = `INSERT INTO clients (name, last_name, document, email, phone_mobile, age, create_date, create_update) VALUES('${data.name}','${data.last_name}', ${data.document}, '${data.email}', ${data.phone_mobile}, ${data.age}, '${data.create_date}', '${data.create_update}')`
-                    console.log(sql,'sql')
+                    data.status = 1
+                    let sql = `INSERT INTO clients (name, last_name, document, email, phone_mobile, age, status , create_date, create_update) VALUES('${data.name}','${data.last_name}',${data.document},'${data.email}',${data.phone_mobile},${data.age},${data.status},'${data.create_date}', '${data.create_update}')`
                     connect.query(sql, function (error, insertClients) {
                         if (error) {
-                            console.error(error);
+                            return reject({ code: 500, status: 'Internal server error', error })
                         } else {
-                            console.log(insertClients);
+                            return resolve({ code: 200, status: 'created successful', insertClients })
                         }
                     })
-                    console.log('no hay nada', result)
+                }
+            })
+            .catch(e => {
+                return reject(e)
+            })
+    })
+}
+
+
+services.updateClient = data => new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM clients WHERE email = '${data.email}'`
+    data.create_update = currentDate;
+    query(sql)
+        .then(res => {
+            if (res.code == 200) {
+                const user = res.sql
+                for (let users of user) {
+                    const update = `UPDATE clients SET name = '${data.name}', last_name = '${data.last_name}', document = ${data.document}, email= '${data.email}' , phone_mobile = ${data.phone_mobile}, age = ${data.age}, create_update = '${data.create_update}' WHERE email = '${users.email}'`
+                    connect.query(update, function (error, update) {
+                        if (error) {
+                            return reject({ code: 500, status: 'Internal server error', error })
+                        } else {
+                            return resolve({ code: 200, status: 'update successful', update })
+                        }
+                    })
                 }
             }
         })
-    })
-}
+        .catch(e => {
+            return reject(e)
+        })
+})
+
+
+services.deleteClient = data => new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM clients WHERE email = '${data.email}'`
+    query(sql)
+        .then(res => {
+            if (res.code == 200) {
+                const user = res.sql
+                for (let users of user) {
+                    const update = `UPDATE clients SET status = ${0} WHERE email = '${users.email}'`
+                    connect.query(update, function (error, update) {
+                        if (error) {
+                            return reject({ code: 500, status: 'Internal server error', error })
+                        } else {
+                            return resolve({ code: 200, status: 'update successful', update })
+                        }
+                    })
+                }
+            }
+        })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = services;

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS products(
   name_product VARCHAR(255),
   desc_product VARCHAR(255),
   create_date VARCHAR(255),
+  status INT(2),
   create_update VARCHAR(255)
 );
 
@@ -30,6 +31,7 @@ CREATE TABLE IF NOT EXISTS clients(
   email VARCHAR(255),
   phone_mobile VARCHAR(255),
   age INT(11),
+  status INT(2),
   create_date VARCHAR(255),
   create_update VARCHAR(255)
 );
@@ -42,6 +44,7 @@ CREATE TABLE IF NOT EXISTS card_bank(
   cvc INT(4),
   date_valid VARCHAR(11),
   type_card VARCHAR(70),
+  status INT(2),
   create_date VARCHAR(255),
   create_update VARCHAR(255)
 );
