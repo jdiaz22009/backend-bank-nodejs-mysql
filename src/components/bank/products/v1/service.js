@@ -13,7 +13,6 @@ services.addProduct = data => new Promise((resolve, reject) => {
   data.create_update = currentDate
   data.status = 1
   const insert = `INSERT INTO products (name_product,desc_product, status,create_date, create_update) VALUES('${data.name_product}','${data.desc_product}', ${data.status}, '${data.create_date}', '${data.create_update}')`
-  console.log(insert)
   sql.insert(insert)
     .then(res => {
       return resolve(res)

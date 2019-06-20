@@ -2,9 +2,9 @@
 const service = require('./service')
 const controller = {}
 
-controller.addProducts = (req, res, next) => {
+controller.addCardBank = (req, res, next) => {
   const { body } = req
-  service.addProduct(body)
+  service.addCardList(body)
     .then(response => {
       res.status(200).send(response);
     })
@@ -13,31 +13,20 @@ controller.addProducts = (req, res, next) => {
     })
 }
 
-controller.getProduct = (req, res, next) => {
-  service.getProduct()
-    .then(response => {
-      res.status(200).send(response);
-    })
-    .catch(error => {
-      res.status(500).send(error)
-    })
-}
-
-controller.updateProducts = (req, res, next) => {
+controller.updateCard = (req, res, next) => {
   const { body } = req
-  service.updateProduct(body)
+  service.updateCardList(body)
     .then(response => {
       res.status(200).send(response);
     })
     .catch(error => {
       res.status(500).send(error)
-
     })
 }
 
-controller.deleteProduct = (req, res, next) => {
+controller.deleteCardList = (req, res, next) => {
   const { body } = req
-  service.deleteProducts(body)
+  service.deleteCardList(body)
     .then(response => {
       res.status(200).send(response);
     })
@@ -46,5 +35,13 @@ controller.deleteProduct = (req, res, next) => {
     })
 }
 
-
+controller.getCardReport = (req, res, next) => {
+  service.getCardListReport()
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(error => {
+      res.status(500).send(error)
+    })
+}
 module.exports = controller

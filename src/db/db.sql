@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS card_bank(
   id_card INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_client INT(11),
   id_product INT(11),
-  num_card INT(60),
+  num_card INT(11),
   cvc INT(4),
   date_valid VARCHAR(11),
   type_card VARCHAR(70),
