@@ -1,8 +1,6 @@
 'use strict'
 const services = {}
 const moment = require('moment')
-const mysql_query = require('../../../db/db_connected_mysql')
-const connect = mysql_query()
 const sql = require('../../../util/query/query')
 const currentDate = moment().format()
 
