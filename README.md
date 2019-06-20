@@ -32,3 +32,9 @@ and finally after having made case 4 the in the packeg.json is the script to run
 
 npm start && npm run bank
 ```
+
+### lINK REQUEST PROJECT
+
+```
+https://documenter.getpostman.com/view/5948707/S1Zz6pMz?version=latest
+```
